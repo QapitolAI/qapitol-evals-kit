@@ -6,9 +6,16 @@ Local **BYOK** LLM and RAG evaluation metrics from [Qapitol](https://github.com/
 
 ```bash
 pip install -e ".[dev,all]"
-# or from GitHub (when published):
-# pip install "qapitol-evals-kit @ git+https://github.com/QapitolAI/qapitol-evals-kit@v0.1.0"
 ```
+
+From GitHub (after `main` is pushed):
+
+```bash
+pip install "qapitol-evals-kit @ git+https://github.com/QapitolAI/qapitol-evals-kit.git@main"
+# or pinned: ...@v0.1.0  (after release tag)
+```
+
+Repo: [github.com/QapitolAI/qapitol-evals-kit](https://github.com/QapitolAI/qapitol-evals-kit)
 
 ## Quick start (no API key)
 
