@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Strip Cursor co-author lines injected by the IDE.
+# Install: ./scripts/install-git-hooks.sh
+MSG_FILE="$1"
+if [[ -f "${MSG_FILE}" ]]; then
+  sed -i '' '/^Co-authored-by: Cursor/d' "${MSG_FILE}" 2>/dev/null \
+    || sed -i '/^Co-authored-by: Cursor/d' "${MSG_FILE}"
+fi
+exit 0

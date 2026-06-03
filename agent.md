@@ -30,6 +30,16 @@ Before commit/push: `./scripts/verify-git-identity.sh`
 
 **Never** add `Co-authored-by: Cursor` or `cursoragent@cursor.com` to commits. Agents must not attribute work to Cursor on GitHub.
 
+One-time on your machine (strips IDE-injected co-author lines):
+
+```bash
+./scripts/install-git-hooks.sh
+```
+
+In **Cursor Settings**, disable agent commit co-author / attribution if that option exists.
+
+Before push, `./scripts/verify-git-identity.sh` must pass (fails if Cursor co-author is still on `HEAD`).
+
 ## Coding standards
 
 - Python 3.10+, type hints, pydantic v2

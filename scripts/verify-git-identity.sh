@@ -34,11 +34,15 @@ if [[ -n "${GLOBAL_EMAIL}" && "${GLOBAL_EMAIL}" == *@gmail.com* ]]; then
   echo "NOTE: global email is personal (${GLOBAL_EMAIL}); local overrides apply for commits in this repo."
 fi
 
-# Warn if last commit (if any) used Cursor co-author
+# Block push if HEAD has Cursor co-author (IDE-injected trailer)
 if git rev-parse HEAD >/dev/null 2>&1; then
   BODY="$(git log -1 --format=%B)"
   if echo "${BODY}" | grep -qi 'Co-authored-by: Cursor'; then
-    echo "WARN: HEAD commit still contains 'Co-authored-by: Cursor' (fix with git commit --amend before next push)"
+    echo "FAIL: HEAD commit contains 'Co-authored-by: Cursor'"
+    echo "  Fix: ./scripts/install-git-hooks.sh then: git commit --amend -F .git/COMMIT_EDITMSG_CLEAN --no-verify"
+    echo "  Or amend in terminal (not Cursor agent) and remove the Co-authored-by line."
+    echo "  Cursor: disable agent commit co-author / attribution in Cursor Settings if available."
+    exit 1
   fi
 fi
 

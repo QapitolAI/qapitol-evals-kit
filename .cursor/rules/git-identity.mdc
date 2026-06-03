@@ -32,6 +32,7 @@ Do **not** change global `user.email` to personal Gmail for work on this repo.
 - **Never** add `Co-authored-by: Cursor` or `cursoragent@cursor.com` to commit messages.
 - **Never** use Cursor/agent trailers that attribute commits to Cursor on GitHub.
 - Write commit messages yourself; plain subject + body only.
+- Run `./scripts/install-git-hooks.sh` once per clone to auto-strip Cursor co-author lines.
 - If the IDE injects a co-author trailer, amend and remove it before push:
 
 ```bash

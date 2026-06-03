@@ -14,10 +14,10 @@ Before every push, after metric or LLM changes, when the user asks to test the i
 
 1. `cd` to repo root (folder with `pyproject.toml`).
 2. `./scripts/verify-git-identity.sh` if you will commit in the same session.
-2. `python -m venv .venv` if missing; activate; `pip install -e ".[dev,all]"`.
-3. `ruff check src tests`
-4. `pytest tests/ -v` — must pass without API keys.
-5. Optional live: `QAPITOL_EVALS_LIVE=1 pytest tests/ -m live -v` (only if user has keys).
-6. `qapitol-evals doctor` when CLI exists.
-7. Report pass/fail. Do not push if ruff or pytest fails.
-8. Update `.plan/IMPLEMENTATION_TRACKER.md` (last verified date, session log if meaningful).
+3. `python -m venv .venv` if missing; activate; `pip install -e ".[dev,all]"`
+4. `ruff check src tests`
+5. `pytest tests/ -v` — must pass without API keys.
+6. Optional live: `QAPITOL_EVALS_LIVE=1 pytest tests/ -m live -v` (only if user has keys).
+7. `qapitol-evals doctor` when CLI exists.
+8. Report pass/fail. Do not push if ruff or pytest fails.
+9. Update `.plan/IMPLEMENTATION_TRACKER.md` (last verified date, session log if meaningful).
