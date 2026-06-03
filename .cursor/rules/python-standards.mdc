@@ -1,0 +1,12 @@
+---
+description: Python standards for qapitol-evals
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Python standards
+
+- Python 3.10+; use `from __future__ import annotations` where helpful
+- pydantic v2 models for `Score` and validated inputs
+- Run `ruff check src tests` and `pytest tests/ -v` before push
+- Prefer explicit types; avoid bare `except`
