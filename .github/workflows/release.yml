@@ -1,5 +1,5 @@
 # Publish to TestPyPI (manual) or PyPI (on version tag v*).
-# Requires PyPI Trusted Publisher: see docs/RELEASING.md
+# Requires PyPI Trusted Publisher on the GitHub repo (see pypi.org trusted publishing docs).
 
 name: Release
 

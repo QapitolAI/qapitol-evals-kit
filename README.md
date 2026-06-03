@@ -84,8 +84,6 @@ ruff check src tests
 pytest tests/ -v
 ```
 
-For agents working on this repo, see [`agent.md`](agent.md).
-
 ## License
 
 MIT

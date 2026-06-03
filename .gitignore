@@ -4,6 +4,11 @@
 # Cursor IDE rules/skills (local only)
 .cursor/
 
+# Maintainer / agent tooling (local only)
+agent.md
+docs/RELEASING.md
+scripts/
+
 # Python
 __pycache__/
 *.py[cod]

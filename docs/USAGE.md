@@ -448,7 +448,7 @@ Python 3.10+.
 
 ---
 
-## Maintainer docs
+## More documentation
 
-- PyPI release process: [RELEASING.md](RELEASING.md)
-- Contributing / agents: [agent.md](../agent.md) (repo root)
+- [GitHub repository](https://github.com/QapitolAI/qapitol-evals-kit) — source, issues, examples
+- [PyPI project page](https://pypi.org/project/qapitol-evals-kit/)
