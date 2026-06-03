@@ -11,3 +11,4 @@ alwaysApply: true
 - Layout: `src/qapitol/evals/`, `tests/`, `examples/`
 - Local plan in `.plan/` is gitignored — never commit it
 - New session: read `.plan/IMPLEMENTATION_TRACKER.md` first; update it when finishing work
+- Commits: see `git-identity.mdc` — Qapitol local email only; no Cursor co-author

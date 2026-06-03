@@ -17,6 +17,19 @@ Greenfield library: `Evaluator.evaluate(eval_dict)` → optional `LLM` call → 
 
 **Not in v1:** RAGAS, Promptfoo, DeepEval, phoenix-evals, hosted QAVE, 17 framework plugins, OCR/Textract.
 
+## Git commits (Qapitol identity only)
+
+This repo uses **local** git config (not personal global email):
+
+| Setting | Value |
+|---------|--------|
+| `user.name` | `Qapitol` |
+| `user.email` | `satyam.dixit@qapitol.com` |
+
+Before commit/push: `./scripts/verify-git-identity.sh`
+
+**Never** add `Co-authored-by: Cursor` or `cursoragent@cursor.com` to commits. Agents must not attribute work to Cursor on GitHub.
+
 ## Coding standards
 
 - Python 3.10+, type hints, pydantic v2

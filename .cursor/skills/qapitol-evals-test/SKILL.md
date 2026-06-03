@@ -13,6 +13,7 @@ Before every push, after metric or LLM changes, when the user asks to test the i
 ## Steps
 
 1. `cd` to repo root (folder with `pyproject.toml`).
+2. `./scripts/verify-git-identity.sh` if you will commit in the same session.
 2. `python -m venv .venv` if missing; activate; `pip install -e ".[dev,all]"`.
 3. `ruff check src tests`
 4. `pytest tests/ -v` — must pass without API keys.
