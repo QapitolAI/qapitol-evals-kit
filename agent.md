@@ -66,7 +66,7 @@ Users needing error taxonomy or hosted scoring → Qapitol QAVE / Qurator (UC1).
 **New session:** read **`.plan/IMPLEMENTATION_TRACKER.md`** first, then `.plan/IMPLEMENTATION_PLAN.md`.  
 (Local only — gitignored; never commit `.plan/`.)
 
-**Current milestone:** `docs/USAGE.md` shipped; **0.1.1** doc + PyPI Documentation URL. **Next:** v0.2 helpers (JSONL, multi-turn code) per sub-plan.
+**Current milestone (2026-06-03):** Phase 2.5 done — `docs/USAGE.md`, `main` at **0.1.1** (`9002970`). **Next:** Phase 5 / **v0.2** — JSONL I/O, conversation helpers, `run_metrics`, `docs/BATCH_AND_TRACES.md`, examples 04–05 (see `.plan/IMPLEMENTATION_PLAN.md`).
 
 - **Update** tracker at end of session: session log, checklist, last `pytest` run.
 - Before push: `./scripts/verify-git-identity.sh` + test/github skills.
