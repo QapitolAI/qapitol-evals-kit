@@ -2,13 +2,19 @@
 
 Local **BYOK** LLM and RAG evaluation metrics from [Qapitol](https://github.com/QapitolAI). Your data never leaves your machine.
 
+## Usage guide
+
+**[docs/USAGE.md](docs/USAGE.md)** — install, all 9 evaluators, batch evals, traces, multi-turn patterns, CLI, examples, CI, FAQ.
+
+After `pip install`, the full guide is on GitHub (linked from PyPI **Documentation**); the wheel contains code + CLI only.
+
 ## Install
 
-**PyPI** (after [publish setup](docs/RELEASING.md)):
+**PyPI:**
 
 ```bash
-pip install qapitol-evals-kit==0.1.0
-pip install "qapitol-evals-kit[all]==0.1.0"   # OpenAI + Anthropic judges
+pip install qapitol-evals-kit==0.1.1
+pip install "qapitol-evals-kit[all]==0.1.1"   # OpenAI + Anthropic judges
 ```
 
 **From source** (development):

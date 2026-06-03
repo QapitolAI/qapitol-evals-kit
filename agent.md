@@ -66,7 +66,7 @@ Users needing error taxonomy or hosted scoring → Qapitol QAVE / Qurator (UC1).
 **New session:** read **`.plan/IMPLEMENTATION_TRACKER.md`** first, then `.plan/IMPLEMENTATION_PLAN.md`.  
 (Local only — gitignored; never commit `.plan/`.)
 
-**Current milestone (2026-06-03):** Phase 3 scaffolding done (`release.yml`, `docs/RELEASING.md`). **You:** PyPI Trusted Publisher + TestPyPI smoke, then tag push or workflow to publish `0.1.0`. **Next:** Phase 4 website CTA.
+**Current milestone:** `docs/USAGE.md` shipped; **0.1.1** doc + PyPI Documentation URL. **Next:** v0.2 helpers (JSONL, multi-turn code) per sub-plan.
 
 - **Update** tracker at end of session: session log, checklist, last `pytest` run.
 - Before push: `./scripts/verify-git-identity.sh` + test/github skills.

@@ -1,6 +1,6 @@
 [project]
 name = "qapitol-evals-kit"
-version = "0.1.0"
+version = "0.1.1"
 description = "Local BYOK LLM and RAG evaluation metrics (Qapitol Evals Kit)"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -37,7 +37,7 @@ qapitol-evals = "qapitol.evals.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/QapitolAI/qapitol-evals-kit"
-Documentation = "https://github.com/QapitolAI/qapitol-evals-kit#readme"
+Documentation = "https://github.com/QapitolAI/qapitol-evals-kit/blob/main/docs/USAGE.md"
 Repository = "https://github.com/QapitolAI/qapitol-evals-kit"
 Issues = "https://github.com/QapitolAI/qapitol-evals-kit/issues"
 
