@@ -63,7 +63,10 @@ Users needing error taxonomy or hosted scoring → Qapitol QAVE / Qurator (UC1).
 
 ## Implementation progress (agents)
 
-Local tracker (gitignored, not on GitHub): **`.plan/IMPLEMENTATION_TRACKER.md`**
+**New session:** read **`.plan/IMPLEMENTATION_TRACKER.md`** first, then `.plan/IMPLEMENTATION_PLAN.md`.  
+(Local only — gitignored; never commit `.plan/`.)
 
-- Open it at the **start** of a new session for what is implemented vs pending.
-- **Update** it at the **end** of each session (session log + phase checklist + last pytest run).
+**Current milestone (2026-06-03):** `v0.1.0` tagged on GitHub; Phases -1–2 done. **Next:** Phase 3 PyPI (or docs/live smoke per user).
+
+- **Update** tracker at end of session: session log, checklist, last `pytest` run.
+- Before push: `./scripts/verify-git-identity.sh` + test/github skills.
