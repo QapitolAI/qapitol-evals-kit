@@ -6,7 +6,7 @@
 
 - **GitHub:** `QapitolAI/qapitol-evals-kit`
 - **Import:** `qapitol.evals`
-- **PyPI (when live):** `qapitol-evals-kit`
+- **PyPI:** `qapitol-evals-kit` — publish via `release.yml` (see `docs/RELEASING.md`)
 
 ## Architecture
 
@@ -66,7 +66,7 @@ Users needing error taxonomy or hosted scoring → Qapitol QAVE / Qurator (UC1).
 **New session:** read **`.plan/IMPLEMENTATION_TRACKER.md`** first, then `.plan/IMPLEMENTATION_PLAN.md`.  
 (Local only — gitignored; never commit `.plan/`.)
 
-**Current milestone (2026-06-03):** `v0.1.0` tagged on GitHub; Phases -1–2 done. **Next:** Phase 3 PyPI (or docs/live smoke per user).
+**Current milestone (2026-06-03):** Phase 3 scaffolding done (`release.yml`, `docs/RELEASING.md`). **You:** PyPI Trusted Publisher + TestPyPI smoke, then tag push or workflow to publish `0.1.0`. **Next:** Phase 4 website CTA.
 
 - **Update** tracker at end of session: session log, checklist, last `pytest` run.
 - Before push: `./scripts/verify-git-identity.sh` + test/github skills.

@@ -21,4 +21,5 @@ When pushing to `QapitolAI/qapitol-evals-kit` or opening a PR.
 7. Before push: `git log -1 --format='%an <%ae>%n%B'` — verify author and no Cursor co-author line.
 8. Push; open PR; wait for CI green.
 9. Tags/releases on `main` only after merge (`v0.1.0` semver).
-10. Never force-push `main`; never commit secrets.
+10. PyPI: see `docs/RELEASING.md` — Trusted Publisher + `release.yml` (TestPyPI dispatch, PyPI on `v*` tag).
+11. Never force-push `main`; never commit secrets.

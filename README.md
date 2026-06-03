@@ -4,23 +4,27 @@ Local **BYOK** LLM and RAG evaluation metrics from [Qapitol](https://github.com/
 
 ## Install
 
+**PyPI** (after [publish setup](docs/RELEASING.md)):
+
+```bash
+pip install qapitol-evals-kit==0.1.0
+pip install "qapitol-evals-kit[all]==0.1.0"   # OpenAI + Anthropic judges
+```
+
+**From source** (development):
+
 ```bash
 pip install -e ".[dev,all]"
 ```
 
-From GitHub (release **v0.1.0**):
+**From GitHub** (fallback):
 
 ```bash
 pip install "qapitol-evals-kit @ git+https://github.com/QapitolAI/qapitol-evals-kit@v0.1.0"
-```
-
-Latest `main`:
-
-```bash
 pip install "qapitol-evals-kit @ git+https://github.com/QapitolAI/qapitol-evals-kit.git@main"
 ```
 
-Repo: [github.com/QapitolAI/qapitol-evals-kit](https://github.com/QapitolAI/qapitol-evals-kit) · Releases: [v0.1.0](https://github.com/QapitolAI/qapitol-evals-kit/releases/tag/v0.1.0)
+Repo: [github.com/QapitolAI/qapitol-evals-kit](https://github.com/QapitolAI/qapitol-evals-kit) · Releases: [v0.1.0](https://github.com/QapitolAI/qapitol-evals-kit/releases/tag/v0.1.0) · PyPI: [qapitol-evals-kit](https://pypi.org/project/qapitol-evals-kit/)
 
 ## Quick start (no API key)
 
