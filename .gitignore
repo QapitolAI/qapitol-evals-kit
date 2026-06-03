@@ -1,6 +1,9 @@
 # Local implementation plan (not pushed)
 .plan/
 
+# Cursor IDE rules/skills (local only)
+.cursor/
+
 # Python
 __pycache__/
 *.py[cod]

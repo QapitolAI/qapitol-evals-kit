@@ -44,8 +44,9 @@ Before push, `./scripts/verify-git-identity.sh` must pass (fails if Cursor co-au
 
 - Python 3.10+, type hints, pydantic v2
 - Minimal dependencies; no secrets in repo
-- Run **qapitol-evals-test** skill before every push
-- Run **qapitol-evals-github** skill when pushing to `QapitolAI`
+- Before every push: `./scripts/verify-git-identity.sh`, `ruff check src tests`, `pytest tests/ -v`
+
+**Local only (gitignored):** `.cursor/` (IDE rules/skills) and `.plan/` — not on GitHub.
 
 ## Third-party libraries
 
@@ -69,4 +70,4 @@ Users needing error taxonomy or hosted scoring → Qapitol QAVE / Qurator (UC1).
 **Current milestone (2026-06-03):** Phase 2.5 done — `docs/USAGE.md`, `main` at **0.1.1** (`9002970`). **Next:** Phase 5 / **v0.2** — JSONL I/O, conversation helpers, `run_metrics`, `docs/BATCH_AND_TRACES.md`, examples 04–05 (see `.plan/IMPLEMENTATION_PLAN.md`).
 
 - **Update** tracker at end of session: session log, checklist, last `pytest` run.
-- Before push: `./scripts/verify-git-identity.sh` + test/github skills.
+- Before push: `./scripts/verify-git-identity.sh`, `ruff check src tests`, `pytest tests/ -v`.
