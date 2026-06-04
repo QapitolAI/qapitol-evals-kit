@@ -2,7 +2,7 @@
 
 Run standard LLM and RAG evaluation metrics **locally** with **your API keys**. No Qapitol account required; your data stays in your environment.
 
-**Version:** 0.1.x · **Repo:** [github.com/QapitolAI/qapitol-evals-kit](https://github.com/QapitolAI/qapitol-evals-kit)
+**Version:** 0.2.0 · **Repo:** [github.com/QapitolAI/qapitol-evals-kit](https://github.com/QapitolAI/qapitol-evals-kit)
 
 > **After `pip install`:** this guide lives on **GitHub** (not inside the installed wheel). Bookmark this page or use the **Documentation** link on [PyPI](https://pypi.org/project/qapitol-evals-kit/).
 
@@ -14,7 +14,7 @@ Run standard LLM and RAG evaluation metrics **locally** with **your API keys**. 
 - QA / eval leads who want coherence, relevance, RAG faithfulness, etc. without writing judges from scratch
 - Teams with data-sovereignty rules (BYOK only; no trace upload to Qapitol)
 
-### What you can do (v0.1)
+### What you can do (v0.2)
 
 | Capability | Supported |
 |------------|-----------|
@@ -23,17 +23,16 @@ Run standard LLM and RAG evaluation metrics **locally** with **your API keys**. 
 | Code metrics without API keys | Yes — exact match, custom accuracy |
 | LLM-as-judge metrics (OpenAI / Anthropic) | Yes — BYOK |
 | RAG metrics (faithfulness, answer relevancy) | Yes — with `context` |
-| Read traces from JSONL in one command | No — use Python + stdlib `json` (v0.2 will add helpers) |
-| Native multi-turn / `messages[]` API | No — use patterns in [§5.5](#55-multi-turn-conversations-v01) |
-| Upload traces to Qapitol | No — use [Qapitol QAVE / Qurator](https://github.com/QapitolAI) for hosted evals |
+| Read traces from JSONL in one command | Yes — `load_jsonl`, `run_metrics`, `write_results_jsonl` |
+| Native multi-turn / `messages[]` API | No — use `conversation` helpers ([§5.5](#55-multi-turn-conversations), [BATCH_AND_TRACES.md](BATCH_AND_TRACES.md)) |
 
 ---
 
 ## 2. Install
 
 ```bash
-pip install qapitol-evals-kit==0.1.1
-pip install "qapitol-evals-kit[all]==0.1.1"   # OpenAI + Anthropic client libraries
+pip install qapitol-evals-kit==0.2.0
+pip install "qapitol-evals-kit[all]==0.2.0"   # OpenAI + Anthropic client libraries
 ```
 
 Verify:
@@ -117,6 +116,16 @@ llm = LLM(provider="anthropic", model="claude-3-5-haiku-latest")
 
 Each LLM metric call sends **one judge prompt** to your provider. Cost ≈ `number_of_rows × number_of_LLM_metrics`.
 
+### v0.2 helpers (batch files & multi-turn)
+
+| Export | Purpose |
+|--------|---------|
+| `load_jsonl`, `write_jsonl`, `write_results_jsonl` | Read/write trace and result files |
+| `run_metrics`, `summarize` | Run several evaluators on the same rows; aggregate means |
+| `format_transcript`, `records_per_turn`, `record_final_turn` | Multi-turn session → flat records |
+
+See [BATCH_AND_TRACES.md](BATCH_AND_TRACES.md) and [README.md](../README.md) for diagrams and end-to-end examples.
+
 ---
 
 ## 4. Evaluator reference
@@ -151,6 +160,8 @@ CustomAccuracyEvaluator(mode="contains").evaluate({
 | `AnswerRelevancyEvaluator` | `input`, `output`, `context` | `answer_relevancy` | Answer addresses question given context |
 
 Example — RAG faithfulness:
+
+![RAG record shape](images/rag-record-shape.png)
 
 ```python
 from qapitol.evals import FaithfulnessEvaluator
@@ -227,13 +238,50 @@ for ev in (CoherenceEvaluator(llm), ToxicityEvaluator(llm)):
 
 **Cost:** `len(records) × number_of_LLM_evaluators` API calls.
 
-### 5.5 Multi-turn conversations (v0.1)
+### 5.5 Multi-turn conversations
 
-There is no `messages[]` field on evaluators. Use one of these patterns:
+![Multi-turn patterns A, B, and C](images/multi-turn-patterns.png)
 
-**Pattern A — One row per turn**
+Evaluators use flat `input` / `output` — not native `messages[]`. Use **`qapitol.evals.conversation`** helpers or manual patterns below. Full guide: [BATCH_AND_TRACES.md](BATCH_AND_TRACES.md).
 
-Split a session into multiple records; each row judges one assistant reply.
+**Pattern A — One row per turn** (`records_per_turn`)
+
+```python
+from qapitol.evals import records_per_turn
+
+session = {
+    "session_id": "s1",
+    "messages": [
+        {"role": "user", "content": "What is ML?"},
+        {"role": "assistant", "content": "Machine learning learns from data."},
+        {"role": "user", "content": "Give an example."},
+        {"role": "assistant", "content": "Email spam filters use ML."},
+    ],
+}
+records = records_per_turn(session)
+```
+
+**Pattern B — Final turn only** (`record_final_turn`)
+
+```python
+from qapitol.evals import record_final_turn
+
+record = record_final_turn(session)
+```
+
+**Pattern C — Full transcript in `input`** (`format_transcript`)
+
+```python
+from qapitol.evals import format_transcript, record_final_turn
+
+base = record_final_turn(session)
+record = {
+    **base,
+    "input": format_transcript(session["messages"][:-1]),
+}
+```
+
+Manual equivalent (without helpers):
 
 ```python
 records = [
@@ -242,63 +290,46 @@ records = [
 ]
 ```
 
-**Pattern B — Final turn only**
-
-When you only care about the last answer:
-
-```python
-record = {
-    "input": last_user_message,
-    "output": last_assistant_message,
-    "context": retrieved_chunks,  # if RAG
-}
-```
-
-**Pattern C — Full transcript in `input`**
-
-Paste prior turns into `input` as text; put the final reply in `output`.
-
-```python
-record = {
-    "input": "User: What is RAG?\nAssistant: Retrieval augmented generation.\nUser: Why use it?",
-    "output": "It reduces hallucinations by grounding answers in retrieved docs.",
-}
-```
-
-Long transcripts increase judge tokens and cost.
+Long transcripts increase judge tokens and cost. See `examples/05_multiturn.py`.
 
 ### 5.6 Traces → records (JSONL)
 
-Export traces from your observability tool, map columns to record fields, save as **JSONL** (one JSON object per line):
+![JSONL batch workflow](images/jsonl-batch-flow.png)
+
+Export traces from your observability tool, map columns to record fields, save as **JSONL** (one JSON object per line). Schema and mapping cookbook: [BATCH_AND_TRACES.md](BATCH_AND_TRACES.md).
 
 ```json
 {"id": "run-001", "input": "Refund policy?", "output": "30-day returns.", "context": "Policy doc excerpt..."}
 ```
 
-Load and evaluate in Python (stdlib only in v0.1):
+Load, run multiple metrics, and write results:
 
 ```python
-import json
 from pathlib import Path
 
-from qapitol.evals import CoherenceEvaluator
-from qapitol.evals.batch import evaluate_batch_sync
+from qapitol.evals import (
+    CoherenceEvaluator,
+    load_jsonl,
+    run_metrics,
+    summarize,
+    write_results_jsonl,
+)
 from qapitol.evals.llm import LLM
-
-def load_jsonl(path: Path) -> list[dict]:
-    records = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if line:
-            records.append(json.loads(line))
-    return records
 
 records = load_jsonl(Path("traces.jsonl"))
 llm = LLM()
-scores = evaluate_batch_sync(CoherenceEvaluator(llm), records)
+results = run_metrics(records, [CoherenceEvaluator(llm)])
 
-for rec, sc in zip(records, scores):
-    print(rec.get("id", "?"), sc.score, sc.label)
+by_metric: dict[str, list] = {}
+for row in results:
+    for s in row["scores"]:
+        by_metric.setdefault(s.name, []).append(s)
+print(summarize(by_metric))
+
+write_results_jsonl(
+    Path("results.jsonl"),
+    [(row, row["scores"]) for row in results],
+)
 ```
 
 | Your trace field | Map to |
@@ -338,10 +369,11 @@ qapitol-evals run --metric correctness \
 | `--provider` | `openai` | `openai` or `anthropic` |
 | `--model` | `gpt-4o-mini` | Provider model id |
 
-**Limits (v0.1):**
+**Limits (v0.2):**
 
-- One row per command (no `--file` batch yet)
+- One row per `run` command — use JSONL batch in Python ([§5.6](#56-traces--records-jsonl), [BATCH_AND_TRACES.md](BATCH_AND_TRACES.md))
 - Code metrics (`exact_match`, `custom_accuracy`) — use Python API or `examples/01_basic_code.py`
+- `qapitol-evals batch` CLI may ship in v0.2.1
 
 ---
 
@@ -354,6 +386,8 @@ Clone or browse [examples/](https://github.com/QapitolAI/qapitol-evals-kit/tree/
 | `01_basic_code.py` | `ExactMatchEvaluator`, `CustomAccuracyEvaluator` — no API key |
 | `02_rag_mock.py` | `FaithfulnessEvaluator` with `MockCompletionClient` |
 | `03_agent_smoke.py` | Coherence + relevance on agent output (mocked judge) |
+| `04_batch_jsonl.py` | JSONL load → `run_metrics` → write results (mocked) |
+| `05_multiturn.py` | Multi-turn patterns A / B / C |
 
 Run from repo root after `pip install -e ".[dev,all]"`:
 
@@ -361,6 +395,8 @@ Run from repo root after `pip install -e ".[dev,all]"`:
 python examples/01_basic_code.py
 python examples/02_rag_mock.py
 python examples/03_agent_smoke.py
+python examples/04_batch_jsonl.py
+python examples/05_multiturn.py
 ```
 
 ---
@@ -419,7 +455,7 @@ if not score.passed_threshold(THRESHOLD):
     raise SystemExit(f"FAIL {score.name}: {score.score} < {THRESHOLD}")
 ```
 
-For CI without live API costs, use `MockCompletionClient` or run only code metrics in the pipeline. Live LLM tests should stay optional (separate job + secrets).
+For CI without live API costs, use `MockCompletionClient` or run only code metrics in the pipeline. See [CI.md](CI.md). Live LLM tests should stay optional (separate job + secrets).
 
 ---
 
@@ -441,7 +477,7 @@ No. Inference goes from your machine to your chosen provider (OpenAI, Anthropic,
 The kit is local-only BYOK metrics. Hosted taxonomy, batch scoring at scale, and governance live in QAVE (UC1).
 
 **Can I re-publish the same version to PyPI?**  
-No. PyPI versions are immutable; ship fixes as `0.1.2`, etc.
+No. PyPI versions are immutable; ship fixes as `0.2.1`, etc.
 
 **Which Python versions are supported?**  
 Python 3.10+.
@@ -450,5 +486,9 @@ Python 3.10+.
 
 ## More documentation
 
+- [README.md](../README.md) — overview, quick starts, use-case illustrations
+- [BATCH_AND_TRACES.md](BATCH_AND_TRACES.md) — JSONL schema, trace mapping, multi-turn helpers
+- [CI.md](CI.md) — mocked CI, threshold gates, optional live eval
 - [GitHub repository](https://github.com/QapitolAI/qapitol-evals-kit) — source, issues, examples
 - [PyPI project page](https://pypi.org/project/qapitol-evals-kit/)
+- [Releases](https://github.com/QapitolAI/qapitol-evals-kit/releases) — `v0.2.0` (JSONL, runner, conversation helpers)

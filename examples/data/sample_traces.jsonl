@@ -1,0 +1,3 @@
+{"id": "trace-001", "input": "What is RAG?", "output": "RAG retrieves context then generates an answer.", "context": "", "expected": "", "metadata": {"session_id": "single", "turn": 1}}
+{"id": "trace-002", "input": "Refund policy?", "output": "Returns accepted within 30 days.", "context": "Policy: 30-day return window for all items.", "expected": "", "metadata": {}}
+{"id": "trace-003", "input": "Capital of France?", "output": "Paris", "expected": "Paris", "metadata": {"type": "code-check"}}
